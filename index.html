@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Calculator</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body>
+        <div id="box">
+            <div id="windowOfCalc">
+                <div id="problemStatement" style="margin-top: 15px;">
+                    <span id="num1" style="overflow: hidden;"></span>
+                    <span id="op"></span>
+                    <span id="num2"></span>
+                </div>
+                <div id="answer"></div>
+            </div>
+            <div id="deck">
+                <div class="deckrow">
+                    <div class="btn">AC</div>
+                    <div class="btn">( )</div>
+                    <div class="btn operator" id="pow">^</div>
+                    <div class="btn operator"
+                    style="font-size: 30px;" id="divi">&#247;</div>
+                </div>
+                <div class="deckrow">
+                    <div class="btn numbers">7</div>
+                    <div class="btn numbers">8</div>
+                    <div class="btn numbers">9</div>
+                    <div class="btn operator" id="mul"
+                    style="font-size: 30px; font-weight: 900;">&times;</div>
+                </div>
+                <div class="deckrow">
+                    <div class="btn numbers">4</div>
+                    <div class="btn numbers">5</div>
+                    <div class="btn numbers">6</div>
+                    <div class="btn operator" id="sub">-</div>
+                </div>
+                <div class="deckrow">
+                    <div class="btn numbers">1</div>
+                    <div class="btn numbers">2</div>
+                    <div class="btn numbers">3</div>
+                    <div class="btn operator" id="plus">+</div>
+                </div>
+                <div class="deckrow">
+                    <div class="btn numbers">0</div>
+                    <div class="btn numbers">.</div>
+                    <div class="btn">del</div>
+                    <div class="btn">=</div>
+                </div>
+            </div>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>
