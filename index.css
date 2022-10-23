@@ -1,9 +1,10 @@
-#box{
+#container{
     display: block;
-    width: 26%;
+    width: 24%;
     height: fit-content;
     margin: auto; margin-top: 3%;
-    border: solid 2px black; border-radius: 10px;
+    border: solid 5px black; border-radius: 10px;
+    background-color: black;
 }
 #windowOfCalc{
     display: inline-block; padding-bottom: 15px;
@@ -13,16 +14,10 @@
     background-color: #3b3b3b;
     color: whitesmoke;
 }
-#problemStatement{
-    width: 95%; height: 50px;
-    display: flex; justify-content: flex-end;
-    overflow: hidden; margin-right: 10px;
-}
-#problemStatement span{
-    display: inline-block;
-    min-width: fit-content;
-    text-align: center;
-    padding-left: 3px; padding-right: 3px;
+#expression{
+    width: 95%; height: 50px; margin-right: 10px; margin-left: 5px;
+    display: block; text-align: right;
+    overflow: hidden;
 }
 #answer{
     width: 91%; height: 50px; margin-left: 10px;
@@ -31,13 +26,13 @@
 #deck{
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    background-color: black;
+    margin-top: 10px; margin-bottom: 10px;
 }
 .deckrow{
     display: flex; align-items: center; justify-content: center;
     gap: 30px; margin: 12px;
 }
-.deckrow div{
+.btn{
     display: block; width: 50px; height: 50px;
     border-radius: 50%;
     text-align: center; line-height: 50px;
@@ -45,14 +40,21 @@
     cursor: pointer; user-select: none;
     color: whitesmoke; opacity: 0.7;
 }
+.btn.clearAll{
+    background-color: green;
+}
 .btn.numbers{
-    background-color: #141414;
+    background-color: #212121;
 }
 .btn.operator{
     background-color: #0a0061;
 }
+.btn.del{
+    background-image: url(resources/delete-icon-white.png);
+    background-position: center; background-size: cover;
+}
 .btn.evaluate{
-    background-color: #1200b3;
+    background-color: #1603bf;
 }
 .deckrow div:hover{
     opacity: 1; color: white;
