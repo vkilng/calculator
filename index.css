@@ -59,3 +59,14 @@
 .deckrow div:hover{
     opacity: 1; color: white;
 }
+#footer{
+    display: block;
+    text-align: center;
+}
+a{
+    color: white;
+}
+#githubLogo{
+    position: relative;
+    top: 10px;
+}
