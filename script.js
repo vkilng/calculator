@@ -143,10 +143,10 @@ function hasDecimalPoint(s) {
 }
 
 function adjustExpressionFont(explen) {
+    if (explen>0 && explen<17) {
+        expWindow.style.fontSize = '35px';
+    }
     switch (explen) {
-        case 0:
-        case 16:
-            expWindow.style.fontSize = '35px'; break;
         case 17:
             expWindow.style.fontSize = '30px'; break;
         case 20:
@@ -169,11 +169,23 @@ function isValidExpression(exprssn) {
 
 function evaluate(exprssn) {
     exprssn = exprssn.replaceAll(' ','');
+    let operatorIndex = 0;
     // B D M A S
     //Check 1 : Brackets
     //.....
+    //Check 1.5 : Exponent/Power
+    while(exprssn.includes('^')) {
+        operatorIndex = exprssn.indexOf('^');
+        console.log('exprssn: ',exprssn);
+        console.log('operatorIndex: ',operatorIndex);
+        let operands = getOperands(exprssn,operatorIndex);
+        console.log('operands: ',operands);
+        let res = power(operands[0], operands[1]);
+        console.log('--> res = ',res);
+        let subExprssn = operands[0] + '^' + operands[1];
+        exprssn = exprssn.replace(subExprssn,res);
+    };
     //Check 2 : Division
-    let operatorIndex = 0;
     while(exprssn.includes('\u00f7')) {
         operatorIndex = exprssn.indexOf('\u00f7');
         console.log('exprssn: ',exprssn);
