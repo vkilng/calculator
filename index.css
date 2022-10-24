@@ -1,6 +1,6 @@
 #container{
     display: block;
-    width: 24%;
+    width: 345px;
     height: fit-content;
     margin: auto; margin-top: 3%;
     border: solid 5px black; border-radius: 10px;
