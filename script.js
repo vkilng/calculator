@@ -213,7 +213,7 @@ function evaluate(exprssn) {
         let subExprssn = operands[0] + '\u00d7' + operands[1];
         exprssn = exprssn.replace(subExprssn,res);
     };
-    //Check 4 : Addition (Gather positive numbers)
+    //Check 4,5 : Addition and Subtraction (Gather positive and negative numbers)
     let positiveNumberArray = [];
     let negativeNumberArray = [];
     if (exprssn[0] != '-') {//getting first no-sign number from exprssn
