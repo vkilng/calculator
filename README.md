@@ -1,6 +1,6 @@
 # Calculator
 
--[Live Demo](https://vkilng.github.io/calculator/)
+- [Live Demo](https://vkilng.github.io/calculator/)
 
 - A simple online calculator enabling basic arithmetic operations using vanilla javascript.
 
