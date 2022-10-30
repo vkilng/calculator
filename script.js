@@ -27,6 +27,7 @@ function buildExpression(e) {
     } else {
         data = e.key;
     }
+    //console.log(data);
     switch(data) {
         case '0':
             if (expWindow.textContent[expLength-2] === '\u00f7') {
@@ -89,33 +90,63 @@ function buildExpression(e) {
             break;
         case '^':
         case 'x y':
-            if (!isNaN(parseInt(lastChar))) {
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
                 expWindow.textContent += ' ^ ';
             }
             break;
         case '+':
-            if (!isNaN(parseInt(lastChar))) {
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
                 expWindow.textContent += ' + ';
             }
             break;
         case '*':
         case '\u00d7'://the multiplication sign's unicode
-            if (!isNaN(parseInt(lastChar))) {
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
                 expWindow.textContent += ' \u00d7 ';
             }
             break;
         case '/':
         case '\u00f7'://the division sign's unicode
-            if (!isNaN(parseInt(lastChar))) {
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
                 expWindow.textContent += ' \u00f7 ';
             }
             break;
         case '-':
-            if (!isNaN(parseInt(lastChar))) {
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
                 expWindow.textContent += ' - ';
             } else if(lastChar === '(' || lastChar === undefined) {
                 expWindow.textContent += '-'
             }
+            break;
+        case '(\u2002)'://brackets separated by &ensp; (unicode: u+2002)
+            if (lastChar === undefined || lastChar === ' ' || lastChar === '(') {
+                expWindow.textContent += '(';
+            };
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
+                expWindow.textContent += ')';
+                if (isValidExpression(expWindow.textContent)
+                && expWindow.textContent.includes(' ')) {
+                    ansWindow.textContent = evaluate(expWindow.textContent);
+                } else {
+                    ansWindow.textContent = '';
+                };
+            };
+            break;
+        case '('://keyboard input support
+            if (lastChar === undefined || lastChar === ' ' || lastChar === '(') {
+                expWindow.textContent += '(';
+            };
+            break;
+        case ')'://keyboard input support
+            if (!isNaN(parseInt(lastChar)) || lastChar === ')') {
+                expWindow.textContent += ')';
+                if (isValidExpression(expWindow.textContent)
+                && expWindow.textContent.includes(' ')) {
+                    ansWindow.textContent = evaluate(expWindow.textContent);
+                } else {
+                    ansWindow.textContent = '';
+                };
+            };
             break;
         case '=':
         case 'Enter':
@@ -132,7 +163,7 @@ function buildExpression(e) {
         default:
             break;
     };
-    adjustExpressionFont(expLength);
+    adjustExpressionFont(expWindow.textContent.length);
 }
 
 function hasDecimalPoint(s) {
@@ -143,15 +174,15 @@ function hasDecimalPoint(s) {
 }
 
 function adjustExpressionFont(explen) {
-    if (explen>0 && explen<17) {
+    if (explen > 0 && explen < 19) {
         expWindow.style.fontSize = '35px';
     }
     switch (explen) {
-        case 17:
+        case 19:
             expWindow.style.fontSize = '30px'; break;
-        case 20:
+        case 22:
             expWindow.style.fontSize = '25px'; break;
-        case 23:
+        case 25:
             expWindow.style.fontSize = '20px'; break;
     };
 }
@@ -169,6 +200,28 @@ function isValidExpression(exprssn) {
 
 function evaluate(exprssn) {
     exprssn = exprssn.replaceAll(' ','');
+    let closeBracketIndex = 0;
+    let openBracketIndex = 0;
+    let subExp = '';
+    let resultOfSubExp = '';
+    while(exprssn.includes(')')) {
+        closeBracketIndex = exprssn.indexOf(')');
+        for(let i = closeBracketIndex; i>=0; i--) {
+            if (exprssn[i] === '(') {
+                openBracketIndex = i;
+                break;
+            };
+        };
+        subExp = exprssn.slice(openBracketIndex+1,closeBracketIndex);
+        resultOfSubExp = evaluateSubExp(subExp);
+        exprssn = exprssn.replace(('('+subExp+')'),resultOfSubExp);
+    };
+    //console.log('reducedExp: ',exprssn);
+    return evaluateSubExp(exprssn);
+}
+
+function evaluateSubExp(exprssn) {
+    exprssn = exprssn.replaceAll(' ','');
     let operatorIndex = 0;
     // B D M A S
     //Check 1 : Brackets
@@ -176,40 +229,40 @@ function evaluate(exprssn) {
     //Check 1.5 : Exponent/Power
     while(exprssn.includes('^')) {
         operatorIndex = exprssn.indexOf('^');
-        console.log('exprssn: ',exprssn);
-        console.log('operatorIndex: ',operatorIndex);
+        //console.log('exprssn: ',exprssn);
+        //console.log('operatorIndex: ',operatorIndex);
         let operands = getOperands(exprssn,operatorIndex);
-        console.log('operands: ',operands);
+        //console.log('operands: ',operands);
         let res = power(operands[0], operands[1]);
-        console.log('--> res = ',res);
+        //console.log('--> res = ',res);
         let subExprssn = operands[0] + '^' + operands[1];
         exprssn = exprssn.replace(subExprssn,res);
     };
     //Check 2 : Division
     while(exprssn.includes('\u00f7')) {
         operatorIndex = exprssn.indexOf('\u00f7');
-        console.log('exprssn: ',exprssn);
-        console.log('operatorIndex: ',operatorIndex);
+        //console.log('exprssn: ',exprssn);
+        //console.log('operatorIndex: ',operatorIndex);
         let operands = getOperands(exprssn,operatorIndex);
-        console.log('operands: ',operands);
+        //console.log('operands: ',operands);
         if (operands[1] === 0) {
             alert('Noticed division by zero during calculation! Recheck!');
             return 'undefined';
         }
         let res = divide(operands[0], operands[1]);
-        console.log('--> res = ',res);
+        //console.log('--> res = ',res);
         let subExprssn = operands[0] + '\u00f7' + operands[1];
         exprssn = exprssn.replace(subExprssn,res);
     };
     //Check 3 : Multiplication
     while(exprssn.includes('\u00d7')) {
         operatorIndex = exprssn.indexOf('\u00d7');
-        console.log('exprssn: ',exprssn);
-        console.log('operatorIndex: ',operatorIndex);
+        //console.log('exprssn: ',exprssn);
+        //console.log('operatorIndex: ',operatorIndex);
         let operands = getOperands(exprssn,operatorIndex);
-        console.log('operands: ',operands);
+        //console.log('operands: ',operands);
         let res = multiply(operands[0], operands[1]);
-        console.log('--> res = ',res);
+        //console.log('--> res = ',res);
         let subExprssn = operands[0] + '\u00d7' + operands[1];
         exprssn = exprssn.replace(subExprssn,res);
     };
@@ -226,16 +279,16 @@ function evaluate(exprssn) {
         let subExprssn = '+' + positiveNumberArray[positiveNumberArray.length-1];
         exprssn = exprssn.replace(subExprssn,'');
     };
-    console.log('positiveNumberArray: ',positiveNumberArray);
+    //console.log('positiveNumberArray: ',positiveNumberArray);
     while(exprssn.includes('-')) {
         operatorIndex = exprssn.indexOf('-');
         negativeNumberArray.push(getNumber(exprssn,operatorIndex));
         let subExprssn = '-' + negativeNumberArray[negativeNumberArray.length-1];
         exprssn = exprssn.replace(subExprssn,'');
     };
-    console.log('negativeNumberArray: ',negativeNumberArray);
+    //console.log('negativeNumberArray: ',negativeNumberArray);
     let result = sumOf(positiveNumberArray) - sumOf(negativeNumberArray);
-    console.log('result: ',result);
+    //console.log('resultOfSubExp: ',result);
     exprssn = String(result);
     if (exprssn.includes('.')) {
         exprssn = regulateDecimal(exprssn);
@@ -252,7 +305,7 @@ function getOperands(exprssn, operatorIndex) {
         leftOperand = exprssn[i] + leftOperand;
         i--;
     }
-    while(!isNaN(exprssn[j]) || exprssn[j] === '.') {
+    while(!isNaN(exprssn[j]) || exprssn[j] === '.' || exprssn[j] === '-') {
         rightOperand += exprssn[j];
         j++;
     }
@@ -278,7 +331,7 @@ function regulateDecimal(num) {
     let decimalPointIndex = num.indexOf('.');
     let lenOfDecimal = num.length - decimalPointIndex - 1;
     if (lenOfDecimal > 4) {
-        num = String(Math.round(parseFloat(num)*1e5)/1e5);
+        num = String(Math.round(parseFloat(num)*1e7)/1e7);
     };
     return num;
 }
