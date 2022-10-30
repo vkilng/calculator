@@ -257,12 +257,12 @@ function evaluateSubExp(exprssn) {
     //Check 3 : Multiplication
     while(exprssn.includes('\u00d7')) {
         operatorIndex = exprssn.indexOf('\u00d7');
-        //console.log('exprssn: ',exprssn);
-        //console.log('operatorIndex: ',operatorIndex);
+        console.log('exprssn: ',exprssn);
+        console.log('operatorIndex: ',operatorIndex);
         let operands = getOperands(exprssn,operatorIndex);
-        //console.log('operands: ',operands);
+        console.log('operands: ',operands);
         let res = multiply(operands[0], operands[1]);
-        //console.log('--> res = ',res);
+        console.log('--> res = ',res);
         let subExprssn = operands[0] + '\u00d7' + operands[1];
         exprssn = exprssn.replace(subExprssn,res);
     };
@@ -301,7 +301,8 @@ function getOperands(exprssn, operatorIndex) {
     let rightOperand = '';
     let i = operatorIndex - 1;
     let j = operatorIndex + 1;
-    while(!isNaN(exprssn[i]) || exprssn[i] === '.') {
+    while(!isNaN(exprssn[i]) || exprssn[i] === '.'
+            || (exprssn[i] === '-' && exprssn[i-1] === undefined)) {
         leftOperand = exprssn[i] + leftOperand;
         i--;
     }
