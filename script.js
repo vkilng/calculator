@@ -214,12 +214,10 @@ function evaluate(exprssn) {
         };
         subExp = exprssn.slice(openBracketIndex+1,closeBracketIndex);
         resultOfSubExp = evaluateSubExp(subExp);
-        if (resultOfSubExp[0] === '-') {
-            if (exprssn[openBracketIndex-1] === '-') {
-                exprssn = exprssn.replace(('-('+subExp+')'),('+'+resultOfSubExp.slice(1)));
-            } else if (exprssn[openBracketIndex-1] === '+') {
-                exprssn = exprssn.replace(('+('+subExp+')'),(resultOfSubExp));
-            }
+        if (resultOfSubExp[0] === '-' && exprssn[openBracketIndex-1] === '-') {
+            exprssn = exprssn.replace(('-('+subExp+')'),('+'+resultOfSubExp.slice(1)));
+        } else if (resultOfSubExp[0] === '-' && exprssn[openBracketIndex-1] === '+') {
+            exprssn = exprssn.replace(('+('+subExp+')'),(resultOfSubExp));
         } else {
             exprssn = exprssn.replace(('('+subExp+')'),resultOfSubExp);
         }
