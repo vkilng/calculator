@@ -214,9 +214,17 @@ function evaluate(exprssn) {
         };
         subExp = exprssn.slice(openBracketIndex+1,closeBracketIndex);
         resultOfSubExp = evaluateSubExp(subExp);
-        exprssn = exprssn.replace(('('+subExp+')'),resultOfSubExp);
+        if (resultOfSubExp[0] === '-') {
+            if (exprssn[openBracketIndex-1] === '-') {
+                exprssn = exprssn.replace(('-('+subExp+')'),('+'+resultOfSubExp.slice(1)));
+            } else if (exprssn[openBracketIndex-1] === '+') {
+                exprssn = exprssn.replace(('+('+subExp+')'),(resultOfSubExp));
+            }
+        } else {
+            exprssn = exprssn.replace(('('+subExp+')'),resultOfSubExp);
+        }
     };
-    //console.log('reducedExp: ',exprssn);
+    console.log('reducedExp: ',exprssn);
     return evaluateSubExp(exprssn);
 }
 
@@ -279,16 +287,16 @@ function evaluateSubExp(exprssn) {
         let subExprssn = '+' + positiveNumberArray[positiveNumberArray.length-1];
         exprssn = exprssn.replace(subExprssn,'');
     };
-    //console.log('positiveNumberArray: ',positiveNumberArray);
+    console.log('positiveNumberArray: ',positiveNumberArray);
     while(exprssn.includes('-')) {
         operatorIndex = exprssn.indexOf('-');
         negativeNumberArray.push(getNumber(exprssn,operatorIndex));
         let subExprssn = '-' + negativeNumberArray[negativeNumberArray.length-1];
         exprssn = exprssn.replace(subExprssn,'');
     };
-    //console.log('negativeNumberArray: ',negativeNumberArray);
+    console.log('negativeNumberArray: ',negativeNumberArray);
     let result = sumOf(positiveNumberArray) - sumOf(negativeNumberArray);
-    //console.log('resultOfSubExp: ',result);
+    console.log('resultOfSubExp: ',result);
     exprssn = String(result);
     if (exprssn.includes('.')) {
         exprssn = regulateDecimal(exprssn);
