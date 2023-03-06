@@ -1,72 +1,162 @@
-#container{
-    display: block;
-    width: 345px;
-    height: fit-content;
-    margin: auto; margin-top: 3%;
-    border: solid 5px black; border-radius: 10px;
-    background-color: black;
+html,
+body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-size: calc(1vw + 2vh);
 }
-#windowOfCalc{
-    display: inline-block; padding-bottom: 15px;
-    width: 100%; height: 100px;
-    border-radius: 10px;
-    font-size: 35px;
-    background-color: #3b3b3b;
-    color: whitesmoke;
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #202020;
+  display: grid;
+  align-content: space-evenly;
 }
-#expression{
-    width: 95%; height: 50px; margin-right: 10px; margin-left: 5px;
-    display: block; text-align: right;
-    overflow: hidden;
+
+#container {
+  display: block;
+  width: 345px;
+  height: fit-content;
+  margin: auto;
+  margin-top: 3%;
+  border: solid 5px black;
+  border-radius: 10px;
+  background-color: black;
 }
-#answer{
-    width: 91%; height: 50px; margin-left: 10px;
-    display: block; text-align: right;
+
+#windowOfCalc {
+  display: inline-block;
+  padding-bottom: 15px;
+  width: 100%;
+  height: 100px;
+  border-radius: 10px;
+  font-size: 35px;
+  background-color: #3b3b3b;
+  color: whitesmoke;
 }
-#deck{
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    margin-top: 10px; margin-bottom: 10px;
+
+#expression {
+  width: 95%;
+  height: 50px;
+  margin-right: 10px;
+  margin-left: 5px;
+  display: block;
+  text-align: right;
+  overflow: hidden;
 }
-.deckrow{
-    display: flex; align-items: center; justify-content: center;
-    gap: 30px; margin: 12px;
+
+#answer {
+  width: 91%;
+  height: 50px;
+  margin-left: 10px;
+  display: block;
+  text-align: right;
 }
-.btn{
-    display: block; width: 50px; height: 50px;
-    border-radius: 50%;
-    text-align: center; line-height: 50px;
-    font-size: 25px;
-    cursor: pointer; user-select: none;
-    color: whitesmoke; opacity: 0.7;
+
+#deck {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.btn.clearAll{
-    background-color: green;
+
+.deckrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin: 12px;
 }
-.btn.numbers{
-    background-color: #212121;
+
+.btn {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  font-size: 25px;
+  cursor: pointer;
+  user-select: none;
+  color: whitesmoke;
+  opacity: 0.7;
 }
-.btn.operator{
-    background-color: #0a0061;
+
+.btn.clearAll {
+  background-color: green;
 }
-.btn.del{
-    background-image: url(resources/delete-icon-white.png);
-    background-position: center; background-size: cover;
+
+.btn.numbers {
+  background-color: #212121;
 }
-.btn.evaluate{
-    background-color: #1603bf;
+
+.btn.operator {
+  background-color: #0a0061;
 }
-.deckrow div:hover{
-    opacity: 1; color: white;
+
+.btn.del {
+  background-image: url(resources/delete-icon-white.png);
+  background-position: center;
+  background-size: cover;
 }
-#footer{
-    display: block;
-    text-align: center;
+
+.btn.evaluate {
+  background-color: #1603bf;
 }
-a{
-    color: white;
+
+.deckrow div:hover {
+  opacity: 1;
+  color: white;
 }
-#githubLogo{
-    position: relative;
-    top: 10px;
+
+footer {
+  background-color: #27272a;
+  color: white;
+  padding: 1vw 4vw;
+  gap: 0.8vw;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+footer div {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+}
+
+footer a {
+  color: white;
+}
+
+footer img:hover {
+  animation: wiggly 2s infinite;
+}
+
+@keyframes wiggly {
+  50% {
+    transform: rotate(360deg) scale(1.2);
+  }
+
+  100% {
+    transform: rotate(1080deg) scale(1);
+  }
+}
+
+@media screen and (max-width: 765px) {
+  footer {
+    padding: 4vw;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+  }
+
+  footer img {
+    width: 4vw;
+    height: 4vw;
+  }
 }
